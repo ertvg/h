@@ -37,10 +37,10 @@ $cycles = 3
 # List as many questions here as you like, it will cycle through all of them
 
 $msgs = @(
-"Si tu réponds non à une des questions suivantes, tous les fichiers de cet ordinateur seront supprimés"
-"Votes-tu Zemmour ?"
-"Les arabes doivent-ils tous êtres renvoyés chez eux ?"
-"Hitler a-t-il eu raison de vouloir exterminer les Juifs ?"
+"w"
+"w"
+"w"
+"w"
 )
 
 for ($i=1; $i -le $cycles; $i++) {
