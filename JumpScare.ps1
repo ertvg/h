@@ -40,7 +40,7 @@ iwr https://github.com/ertvg/h/blob/main/jumpscare.png?dl=1 -O $env:TMP\i.png
 
 # Download WAV file; replace link to $wav to add your own sound
 
-$wav = "https://github.com/I-Am-Jakoby/hak5-submissions/blob/main/OMG/Payloads/OMG-JumpScare/female_scream.wav?raw=true"
+$wav = "https://github.com/ertvg/h/blob/main/orgasm.wav"
 
 $w = -join($wav,"?dl=1")
 iwr $w -O $env:TMP\s.wav
