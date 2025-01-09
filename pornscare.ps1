@@ -31,12 +31,12 @@
 
 # Download Image; replace link to $image to add your own image
 
-$image =  "https://github.com/ertvg/h/blob/main/lol.png"
+$image =  "https://github.com/ertvg/h/blob/main/scream.png"
 
 $i = -join($image,"?dl=1")
 iwr $i -O $env:TMP\i.png
 
-iwr https://github.com/ertvg/h/blob/main/lol.png?dl=1 -O $env:TMP\i.png
+iwr https://github.com/ertvg/h/blob/main/scream.png?dl=1 -O $env:TMP\i.png
 
 # Download WAV file; replace link to $wav to add your own sound
 
