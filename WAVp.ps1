@@ -33,7 +33,7 @@
 ############################################################################################################################################################
 
 # Download Sound (When using your own link "dl=0" needs to be changed to "dl=1")
-iwr https://www.dropbox.com/scl/fi/zu7gnb4g6zujvqic8ejr6/orgasm.wav?rlkey=19ql2iuxpwsjm8bvoquga9nto&st=8z9vbcck&dl=1 -O $env:TMP\e.wav
+iwr https://www.dropbox.com/scl/fi/zu7gnb4g6zujvqic8ejr6/orgasm.wav?rlkey=19ql2iuxpwsjm8bvoquga9nto&st=mdc311k0&dl=0 -O $env:TMP\e.wav
 
 ############################################################################################################################################################
 
