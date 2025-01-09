@@ -31,7 +31,7 @@
 
 # Download Image; replace link to $image to add your own image
 
-$image =  "$image"
+$image = $image
 
 $i = -join($image,"?dl=1")
 iwr $i -O $env:TMP\i.png
