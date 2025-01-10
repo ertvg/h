@@ -4,7 +4,18 @@ $url = "https://github.com/ertvg/h/blob/main/ALRM.wav"
 # Spécifie le chemin de destination du fichier téléchargé
 $destination = "C:\Temp\ALRM.wav"
 
-# Télécharge le fichier
-Invoke-WebRequest -Uri $url -OutFile $destination
+try {
+    # Télécharge le fichier
+    Invoke-WebRequest -Uri $url -OutFile $destination
 
-Start-Process "C:\Program Files\VideoLAN\VLC\vlc.exe" -ArgumentList $destination --play-and-exit
+    # Vérifie si le fichier a été téléchargé
+    if (Test-Path $destination) {
+        Write-Host "Le fichier a été téléchargé avec succès."
+        # Ouvre le fichier avec le lecteur multimédia par défaut
+        Start-Process $destination
+    } else {
+        Write-Host "Erreur lors du téléchargement du fichier."
+    }
+} catch {
+    Write-Host "Une erreur s'est produite :" $_.Exception.Message
+}
