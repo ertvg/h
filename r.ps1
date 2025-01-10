@@ -1,7 +1,3 @@
-Absolument ! Voici un script PowerShell qui ouvre une boîte de dialogue avec les boutons Oui et Non :
-
-PowerShell
-
 [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 
 function AfficherBoiteDialogue {
