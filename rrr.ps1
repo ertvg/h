@@ -9,10 +9,10 @@ function AfficherBoiteDialogue {
 
     switch ($resultat) {
         [System.Windows.Forms.DialogResult]::Yes {
-            Write-Host "Vous avez répondu Oui"
+            [System.Windows.Forms.MessageBox]::Show("Super bonne nouvelle !")
         }
         [System.Windows.Forms.DialogResult]::No {
-            Write-Host "Vous avez répondu Non"
+            [System.Windows.Forms.MessageBox]::Show("Dommage...")
         }
     }
 }
