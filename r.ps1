@@ -1,25 +1,21 @@
 [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 
-function AfficherBoiteDialogue {
-    $message = "Voulez-vous continuer ?"
-    $titre = "Confirmation"
-    $boutons = [System.Windows.Forms.MessageBoxButtons]::YesNo
-
-    # Afficher la boîte de dialogue et stocker le résultat
-    $resultat = [System.Windows.Forms.MessageBox]::Show($message, $titre, $boutons)
-
-    # Actions en fonction du résultat
-    switch ($resultat) {
-        [System.Windows.Forms.DialogResult]::Yes {
-            Write-Host "Vous avez cliqué sur Oui"
-            # Ajoutez ici les actions à effectuer si l'utilisateur clique sur Oui
-        }
-        [System.Windows.Forms.DialogResult]::No {
-            Write-Host "Vous avez cliqué sur Non"
-            # Ajoutez ici les actions à effectuer si l'utilisateur clique sur Non
-        }
-    }
+function AfficherBoiteDialogue($x, $y) {
+    $form = New-Object System.Windows.Forms.Form
+    $form.Text = "Boîte de dialogue"
+    $form.Size = New-Object System.Drawing.Size(300, 100)
+    $form.StartPosition = "Manual"
+    $form.Location = New-Object System.Drawing.Point($x, $y)
+    $form.ShowDialog()
 }
 
-# Appeler la fonction pour afficher la boîte de dialogue
-AfficherBoiteDialogue
+# Obtenir la résolution de l'écran
+$screen = [System.Windows.Forms.Screen]::PrimaryScreen
+$screenWidth = $screen.Bounds.Width
+$screenHeight = $screen.Bounds.Height
+
+# Afficher les boîtes de dialogue aux positions souhaitées
+AfficherBoiteDialogue (($screenWidth / 2) - 150, ($screenHeight / 2) - 50)  # Centre de l'écran
+AfficherBoiteDialogue 0, 0                                                    # Haut gauche
+AfficherBoiteDialogue ($screenWidth - 300), $screenHeight - 100              # Bas droit
+AfficherBoiteDialogue 0, 0                                                    # Haut droit (encore une fois pour l'exemple)
