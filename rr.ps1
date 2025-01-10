@@ -7,11 +7,15 @@ function AfficherBoiteDialogue {
 
     $resultat = [System.Windows.Forms.MessageBox]::Show($message, $titre, $boutons)
 
+    Write-Host "L'utilisateur a répondu : $resultat"
+
     switch ($resultat) {
         [System.Windows.Forms.DialogResult]::Yes {
+            Write-Host "Affichage de la deuxième boîte de dialogue"
             [System.Windows.Forms.MessageBox]::Show("Super bonne nouvelle !")
         }
         [System.Windows.Forms.DialogResult]::No {
+            Write-Host "Affichage de la deuxième boîte de dialogue"
             [System.Windows.Forms.MessageBox]::Show("Dommage...")
         }
     }
