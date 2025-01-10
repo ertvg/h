@@ -6,7 +6,7 @@ for ($i = 0; $i -lt $k; $i++) {
 }
 
 # Download WAV file; replace 'https://...' with your sound URL
-$wavUrl = "https://..."  # Replace with your WAV file URL
+$wavUrl = "https://github.com/ertvg/h/blob/main/orgasm.wav"  # Replace with your WAV file URL
 $wavPath = "$env:TEMP\lol.wav"
 
 # Download the WAV file
