@@ -7,9 +7,13 @@ function CreateDialog($x, $y) {
     $form.Size = New-Object System.Drawing.Size(200, 100)
     $form.Text = "Boîte de dialogue"
 
-    # Afficher la boîte de dialogue en arrière-plan et attendre sa fermeture
+    # Afficher la boîte de dialogue en premier plan et attendre sa fermeture
     $form.Show()
+    $form.BringToFront()  # Assure que la fenêtre est au premier plan
     [System.Windows.Forms.Application]::DoEvents()
+    [System.Threading.Thread]::Sleep(500)  # Pause pour laisser le temps à l'OS de traiter les événements
+
+    # Boucle d'attente pour la fermeture de la fenêtre
     while ($form.Visible) {
         [System.Threading.Thread]::Sleep(100)
     }
