@@ -8,7 +8,7 @@ Get-Process "explorer"| Stop-Process
 $url = "https://c4.wallpaperflare.com/wallpaper/553/61/171/5k-black-hd-mockup-wallpaper-preview.jpg"
 
 
-Invoke-WebRequest $url -OutFile C:\temp\lol.jpg
+Invoke-WebRequest $url -OutFile C:\temp\test.jpg
 
 
 $setwallpapersrc = @"
@@ -29,7 +29,7 @@ public class Wallpaper
 "@
 Add-Type -TypeDefinition $setwallpapersrc
 
-[Wallpaper]::SetWallpaper("C:\temp\lol.jpg")
+[Wallpaper]::SetWallpaper("C:\temp\test.jpg")
 
 
 #Pop Up Message
