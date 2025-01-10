@@ -25,7 +25,9 @@ $spacing = 50
 
 # Créer les boîtes de dialogue
 for ($i = 0; $i -lt $nbDialogues; $i++) {
+    # Calcul correct des positions
     $x = ($i % 5) * ($dialogWidth + $spacing)
     $y = ($i / 5) * ($dialogHeight + $spacing)
+
     CreateDialog $x $y
 }
