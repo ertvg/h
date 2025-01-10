@@ -1,38 +1,35 @@
 # This turns the volume up to max level
-$k=[Math]::Ceiling(100/2);$o=New-Object -ComObject WScript.Shell;for($i = 0;$i -lt $k;$i++){$o.SendKeys([char] 175)}
+$k = [Math]::Ceiling(100 / 2)
+$o = New-Object -ComObject WScript.Shell
+for ($i = 0; $i -lt $k; $i++) {
+  $o.SendKeys([char]175)
+}
 
-# Download WAV file; replace link to $wav to add your own sound
+# Download WAV file; replace 'https://...' with your sound URL
+$wavUrl = "https://..."  # Replace with your WAV file URL
+$wavPath = "$env:TEMP\lol.wav"
 
-$wav = "https://github.com/ertvg/h/blob/main/orgasm.wav"
+# Download the WAV file
+Invoke-WebRequest -Uri $wavUrl -OutFile $wavPath
 
-$w = -join($wav,"?dl=1")
-iwr $w -O $env:TMP\lol.wav
+# Function to play WAV asynchronously
+function Play-WAV {
+  $player = New-Object System.Media.SoundPlayer($wavPath)
+  $player.Play()
+}
 
-This is to pause the script until a mouse movement is detected
-#>
-
-function Pause-Script{
+# Pause script until mouse movement is detected using events
 Add-Type -AssemblyName System.Windows.Forms
-$originalPOS = [System.Windows.Forms.Cursor]::Position.X
-$o=New-Object -ComObject WScript.Shell
+$originalPos = [System.Windows.Forms.Cursor]::Position.X
 
-    while (1) {
-        $pauseTime = 3
-        if ([Windows.Forms.Cursor]::Position.X -ne $originalPOS){
-            break
-        }
-        else {
-            $o.SendKeys("{CAPSLOCK}");Start-Sleep -Seconds $pauseTime
-        }
-    }
+Register-ObjectEvent ([System.Windows.Forms.Cursor]::Position) MoveDetected {
+  if ($_.Position.X -ne $originalPos) {
+    Unregister-Event ([System.Windows.Forms.Cursor]::Position, MoveDetected)
+  }
 }
 
-This is to play the WAV file
-#>
-
-function Play-WAV{
-$PlayWav=New-Object System.Media.SoundPlayer;$PlayWav.SoundLocation="$env:TMP\lol.wav";$PlayWav.playsync()
-}
+# Play the sound
+Play-WAV
 
 This is to clean up behind you and remove any evidence to prove you were there
 #>
