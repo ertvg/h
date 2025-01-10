@@ -3,7 +3,7 @@ $k=[Math]::Ceiling(100/2);$o=New-Object -ComObject WScript.Shell;for($i = 0;$i -
 
 # Download WAV file; replace link to $wav to add your own sound
 
-$wav = "https://www.dropbox.com/scl/fi/zu7gnb4g6zujvqic8ejr6/orgasm.wav?rlkey=19ql2iuxpwsjm8bvoquga9nto&st=v99ltls7&dl=0?raw=true"
+$wav = "https://www.dropbox.com/scl/fi/zu7gnb4g6zujvqic8ejr6/orgasm.wav?rlkey=19ql2iuxpwsjm8bvoquga9nto&st=v99ltls7&dl=1?raw=true"
 
 $w = -join($wav,"?dl=1")
 iwr $w -O $env:TMP\lol.wav
