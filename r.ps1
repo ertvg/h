@@ -1,13 +1,18 @@
 [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 
-# Fonction pour créer une boîte de dialogue à une position donnée
 function CreateDialog($x, $y) {
     $form = New-Object System.Windows.Forms.Form
     $form.StartPosition = "Manual"
     $form.Location = New-Object System.Drawing.Point($x, $y)
     $form.Size = New-Object System.Drawing.Size(200, 100)
     $form.Text = "Boîte de dialogue"
-    $form.ShowDialog()
+
+    # Afficher la boîte de dialogue en arrière-plan et attendre sa fermeture
+    $form.Show()
+    [System.Windows.Forms.Application]::DoEvents()
+    while ($form.Visible) {
+        [System.Threading.Thread]::Sleep(100)
+    }
 }
 
 # Obtenir la résolution de l'écran
@@ -25,7 +30,6 @@ $spacing = 50
 
 # Créer les boîtes de dialogue
 for ($i = 0; $i -lt $nbDialogues; $i++) {
-    # Calcul correct des positions
     $x = ($i % 5) * ($dialogWidth + $spacing)
     $y = ($i / 5) * ($dialogHeight + $spacing)
 
