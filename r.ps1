@@ -7,5 +7,4 @@ $destination = "C:\Temp\ALRM.wav"
 # Télécharge le fichier
 Invoke-WebRequest -Uri $url -OutFile $destination
 
-# Ouvre le fichier avec le lecteur multimédia par défaut
-Start-Process $destination
+Start-Process "C:\Program Files\VideoLAN\VLC\vlc.exe" -ArgumentList $destination --play-and-exit
