@@ -27,10 +27,11 @@ public class Wallpaper
   }
 }
 "@
+
 Add-Type -TypeDefinition $setwallpapersrc
+$WP = [Wallpaper.Setter]
 
 [Wallpaper]::SetWallpaper("C:\temp\test.jpg")
-
 
 #Pop Up Message
 
