@@ -34,16 +34,16 @@
 $image =  "https://github.com/ertvg/h/blob/main/yhbh.jpg"
 
 $i = -join($image,"?dl=1")
-iwr $i -O $env:TMP\i.png
+iwr $i -O $env:TMP\yhbh.jpg
 
-iwr https://github.com/ertvg/h/blob/main/yhbh.jpg?dl=1 -O $env:TMP\i.png
+iwr https://github.com/ertvg/h/blob/main/yhbh.jpg?dl=1 -O $env:TMP\yhbh.jpg
 
 # Download WAV file; replace link to $wav to add your own sound
 
 $wav = "https://github.com/ertvg/h/blob/main/ALRM.wav?raw=true"
 
 $w = -join($wav,"?dl=1")
-iwr $w -O $env:TMP\s.wav
+iwr $w -O $env:TMP\ALRM.wav
 
 
 
@@ -169,7 +169,7 @@ $o=New-Object -ComObject WScript.Shell
 #>
 
 function Play-WAV{
-$PlayWav=New-Object System.Media.SoundPlayer;$PlayWav.SoundLocation="$env:TMP\s.wav";$PlayWav.playsync()
+$PlayWav=New-Object System.Media.SoundPlayer;$PlayWav.SoundLocation="$env:TMP\ALRM.wav";$PlayWav.playsync()
 }
 
 #----------------------------------------------------------------------------------------------------
