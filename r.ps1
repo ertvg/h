@@ -1,15 +1,31 @@
 [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 
-$form = New-Object System.Windows.Forms.Form
-$form.Text = "Ma boîte de dialogue"
-$form.StartPosition = "Manual"
-$form.Location = New-Object System.Drawing.Point(0, 0)
-$form.Size = New-Object System.Drawing.Size(300, 200)
+# Fonction pour créer une boîte de dialogue à une position donnée
+function CreateDialog($x, $y) {
+    $form = New-Object System.Windows.Forms.Form
+    $form.StartPosition = "Manual"
+    $form.Location = New-Object System.Drawing.Point($x, $y)
+    $form.Size = New-Object System.Drawing.Size(200, 100)
+    $form.Text = "Boîte de dialogue"
+    $form.ShowDialog()
+}
 
-$label = New-Object System.Windows.Forms.Label
-$label.Text = "Ce texte s'affiche dans la boîte de dialogue"
-$label.AutoSize = $true
-$label.Location = New-Object System.Drawing.Point(10, 10)
-$form.Controls.Add($label)
+# Obtenir la résolution de l'écran
+$screen = [System.Windows.Forms.Screen]::PrimaryScreen
+$screenWidth = $screen.Bounds.Width
+$screenHeight = $screen.Bounds.Height
 
-$form.ShowDialog()
+# Nombre de boîtes de dialogue
+$nbDialogues = 10
+
+# Calculer la taille et l'espacement entre les boîtes
+$dialogWidth = 200
+$dialogHeight = 100
+$spacing = 50
+
+# Créer les boîtes de dialogue
+for ($i = 0; $i -lt $nbDialogues; $i++) {
+    $x = ($i % 5) * ($dialogWidth + $spacing)
+    $y = ($i / 5) * ($dialogHeight + $spacing)
+    CreateDialog $x $y
+}
