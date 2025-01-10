@@ -6,17 +6,20 @@ function CreateDialog {
     $form.Size = New-Object System.Drawing.Size(300, 200)
     $form.StartPosition = "CenterScreen"  # Centre la fenêtre sur l'écran
 
-    # Bouton pour fermer la fenêtre
-    $closeButton = New-Object System.Windows.Forms.Button
-    $closeButton.Text = "Fermer"
-    $closeButton.Location = New-Object System.Drawing.Point(100, 150)
-    $closeButton.Add_Click({$form.Close()})
-    $form.Controls.Add($closeButton)
+    # ... (reste du code)
 
-    $form.ShowDialog()
+    try
+    {
+        $form.ShowDialog()
+    }
+    catch
+    {
+        Write-Host "Une erreur s'est produite :" $_.Exception.Message
+    }
+    [System.Threading.Thread]::Sleep(1000)  # Pause de 1 seconde entre chaque fenêtre
 }
 
-# Afficher 10 boîtes de dialogue
-for ($i = 1; $i -le 10; $i++) {
+# Afficher 5 boîtes de dialogue (réduire pour tester)
+for ($i = 1; $i -le 5; $i++) {
     CreateDialog
 }
