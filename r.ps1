@@ -1,25 +1,20 @@
+Absolument ! Voici un script PowerShell qui ouvre une boîte de dialogue avec les boutons Oui et Non :
+
+PowerShell
+
 [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 
-function CreateDialog {
-    $form = New-Object System.Windows.Forms.Form
-    $form.Text = "Boîte de dialogue"
-    $form.Size = New-Object System.Drawing.Size(300, 200)
-    $form.StartPosition = "CenterScreen"  # Centre la fenêtre sur l'écran
+function AfficherBoiteDialogue {
+    $message = "Voulez-vous continuer ?"
+    $titre = "Confirmation"
+    $boutons = [System.Windows.Forms.MessageBoxButtons]::YesNo
+    $resultat = [System.Windows.Forms.MessageBox]::Show($message, $titre, $boutons)
 
-    # ... (reste du code)
-
-    try
-    {
-        $form.ShowDialog()
+    if ($resultat -eq [System.Windows.Forms.DialogResult]::Yes) {
+        Write-Host "Vous avez cliqué sur Oui"
+    } else {
+        Write-Host "Vous avez cliqué sur Non"
     }
-    catch
-    {
-        Write-Host "Une erreur s'est produite :" $_.Exception.Message
-    }
-    [System.Threading.Thread]::Sleep(1000)  # Pause de 1 seconde entre chaque fenêtre
 }
 
-# Afficher 5 boîtes de dialogue (réduire pour tester)
-for ($i = 1; $i -le 5; $i++) {
-    CreateDialog
-}
+AfficherBoiteDialogue
