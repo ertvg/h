@@ -11,26 +11,34 @@ $url = "https://c4.wallpaperflare.com/wallpaper/553/61/171/5k-black-hd-mockup-wa
 Invoke-WebRequest $url -OutFile C:\temp\test.jpg
 
 
+# Téléchargement de l'image (si nécessaire)
+$url = "https://c4.wallpaperflare.com/wallpaper/553/61/171/5k-black-hd-mockup-wallpaper-preview.jpg"
+Invoke-WebRequest $url -OutFile "C:\temp\test.jpg"
+
+# Définition de la classe C# pour changer le fond d'écran
 $setwallpapersrc = @"
 using System.Runtime.InteropServices;
 
 public class Wallpaper
 {
-  public const int SetDesktopWallpaper = 20;
-  public const int UpdateIniFile = 0x01;
-  public const int SendWinIniChange = 0x02;
-  [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-  private static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+  public const int SPI_SETDESKWALLPAPER = 20;
+  public const int SPIF_UPDATEINIFILE = 0x01;
+  public const int SPIF_SENDWININICHANGE = 0x02;
+
+  [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+  static extern int SystemParametersInfo(int uAction, uint uParam, string lpvParam, uint fuWinIni);
+
   public static void SetWallpaper(string path)
   {
-    SystemParametersInfo(SetDesktopWallpaper, 0, path, UpdateIniFile | SendWinIniChange);
+    SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, path, SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
   }
 }
 "@
 
+# Ajout de la classe au script PowerShell
 Add-Type -TypeDefinition $setwallpapersrc
-$WP = [Wallpaper.Setter]
 
+# Application du nouveau fond d'écran
 [Wallpaper]::SetWallpaper("C:\temp\test.jpg")
 
 #Pop Up Message
