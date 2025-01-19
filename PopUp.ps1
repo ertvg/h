@@ -32,7 +32,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 # The number of times you want it to cycle through your list of questions
 
-$cycles = 3
+$cycles = 10
 
 # List as many questions here as you like, it will cycke through all of them
 
@@ -46,7 +46,7 @@ $msgs = @(
 for ($i=1; $i -le $cycles; $i++) {
 
 Foreach ($msg in $msgs) {
-[System.Windows.Forms.MessageBox]::Show($msg , "Error 404" , 4 , 'Warning')
+[System.Windows.Forms.MessageBox]::Show($msg , "Error 404" , 3 , 'Warning')
 }
 }
 
