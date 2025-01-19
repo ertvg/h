@@ -46,7 +46,7 @@ $msgs = @(
 for ($i=1; $i -le $cycles; $i++) {
 
 Foreach ($msg in $msgs) {
-[System.Windows.Forms.MessageBox]::Show($msg , "Error 404" , 2 , 'Warning')
+[System.Windows.Forms.MessageBox]::Show($msg , "Error 404" , 4 , 'Warning')
 }
 }
 
