@@ -1,3 +1,19 @@
+# Masquer la fenêtre PowerShell si elle est visible
+Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+public class Win32 {
+    [DllImport("user32.dll")]
+    public static extern int ShowWindow(IntPtr hWnd, int nCmdShow);
+    [DllImport("kernel32.dll")]
+    public static extern IntPtr GetConsoleWindow();
+}
+"@
+
+$consolePtr = [Win32]::GetConsoleWindow()
+# Masquer la fenêtre (0 : Masquer)
+[Win32]::ShowWindow($consolePtr, 0)
+
 # Charger les bibliothèques nécessaires
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName Microsoft.VisualBasic
