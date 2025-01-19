@@ -35,7 +35,7 @@
 # Download Sound (When using your own link "dl=0" needs to be changed to "dl=1")
 # This is for if you want to host your own instance of this script
 
-$wav = "https://raw.githubusercontent.com/ertvg/h/blob/main/prout.wav"
+$wav = "https://github.com/ertvg/h/blob/main/prout.wav"
 
 iwr $wav -O $env:TMP\e.wav
 
