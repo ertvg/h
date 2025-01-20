@@ -13,7 +13,7 @@ $Shortcut = $WshShell.CreateShortcut("$DesktopPath\Porno.lnk")
 
 # Définir les propriétés du raccourci
 $Shortcut.TargetPath = "powershell.exe"
-$Shortcut.Arguments = "-c (New-Object Media.SoundPlayer '$soundPath').PlaySync(); shutdown /S /T 10 /C 'Le porno c est mal...'"
+$Shortcut.Arguments = "-c (New-Object Media.SoundPlayer '$soundPath').PlaySync(); shutdown /S /T 10 /C 'Cochon va !'"
 $Shortcut.WorkingDirectory = "C:\"
 $Shortcut.IconLocation = "C:\WINDOWS\system32\imageres.dll, 3"
 $Shortcut.Save()
