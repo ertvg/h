@@ -1,6 +1,6 @@
 while ($true) {
     # Génère un délai aléatoire entre 10 et 240 secondes
-    $r = Get-Random -Minimum 5 -Maximum 15
+    $r = Get-Random -Minimum 5 -Maximum 25
     Start-Sleep -Seconds $r
 
     # Charge l'assembly Windows Forms si nécessaire
