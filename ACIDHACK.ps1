@@ -1,24 +1,28 @@
-﻿<#
+function Pause-Script {
+    Add-Type -AssemblyName System.Windows.Forms
 
-.NOTES 
-	This is to pause the script until a mouse movement is detected
-#>
+    # Récupérer la position initiale de la souris
+    $originalPOS = [System.Windows.Forms.Cursor]::Position
 
-function Pause-Script{
-Add-Type -AssemblyName System.Windows.Forms
-$originalPOS = [System.Windows.Forms.Cursor]::Position.X
-$o=New-Object -ComObject WScript.Shell
+    Write-Host "En attente d'un mouvement de la souris..."
+    while ($true) {
+        # Récupérer la position actuelle de la souris
+        $currentPOS = [System.Windows.Forms.Cursor]::Position
 
-    while (1) {
-        $pauseTime = 3
-        if ([Windows.Forms.Cursor]::Position.X -ne $originalPOS){
+        # Vérifier si la position de la souris a changé
+        if ($currentPOS.X -ne $originalPOS.X -or $currentPOS.Y -ne $originalPOS.Y) {
+            # Si la souris a bougé, sortir de la boucle
+            Write-Host "Mouvement de souris détecté. Continuation du script."
             break
         }
-        else {
-            $o.SendKeys("{CAPSLOCK}");Start-Sleep -Seconds $pauseTime
-        }
+        # Sinon attendre quelques secondes avant de vérifier à nouveau
+        Start-Sleep -Seconds 1
     }
 }
+
+# Appeler la fonction pour attendre un mouvement de souris
+Pause-Script
+
 
 <#
 ====================== Beigeworm's GDI Effects Tool ==========================
