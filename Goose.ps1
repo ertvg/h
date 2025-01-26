@@ -1,3 +1,23 @@
+function Pause-Script {
+    Add-Type -AssemblyName System.Windows.Forms
+
+    # Récupérer la position initiale de la souris
+    $originalPOS = [System.Windows.Forms.Cursor]::Position
+
+    while ($true) {
+        # Récupérer la position actuelle de la souris
+        $currentPOS = [System.Windows.Forms.Cursor]::Position
+
+        # Vérifier si la position de la souris a changé
+        if ($currentPOS.X -ne $originalPOS.X -or $currentPOS.Y -ne $originalPOS.Y) {
+            # Si la souris a bougé, sortir de la boucle
+            break
+        }
+        # Sinon attendre quelques secondes avant de vérifier à nouveau
+        Start-Sleep -Seconds 1
+    }
+}
+
 # Chemin temporaire pour stocker le fichier ZIP
 $tempZipPath = "$env:TEMP\Goose.zip"
 $tempExtractPath = "$env:TEMP\Goose"
@@ -13,6 +33,10 @@ $vbsFilePath = "$tempExtractPath\Goose.vbs"
 
 # Vérifier si le fichier VBS existe
 if (Test-Path $vbsFilePath) {
+# Fonction principale
+function Main {
+    # Attendre que la souris se déplace
+    Pause-Script
     # Exécution du fichier VBS
     cscript.exe //B //Nologo $vbsFilePath
 } else {
